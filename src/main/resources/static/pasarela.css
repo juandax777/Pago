@@ -1,0 +1,380 @@
+/* Reset y estilos base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    color: #333;
+}
+
+/* Contenedor principal */
+.main-wrapper {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 30px;
+    max-width: 1000px;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+}
+
+/* Caja del formulario de pago */
+.payment-form-box {
+    padding: 40px;
+    background: #ffffff;
+    position: relative;
+}
+
+.payment-form-box::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #065B4E, #B2DBCF);
+}
+
+.payment-form-box h2 {
+    color: #065B4E;
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 30px;
+    text-align: center;
+    position: relative;
+}
+
+.payment-form-box h2::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, #065B4E, #B2DBCF);
+    border-radius: 2px;
+}
+
+/* Filas del formulario */
+.form-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 25px;
+}
+
+.form-row > div {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Estilos de labels */
+label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #065B4E;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Estilos de inputs y select */
+input[type="text"],
+input[type="number"],
+select {
+    padding: 15px 18px;
+    border: 2px solid #e1e5e9;
+    border-radius: 12px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background: #fafbfc;
+    outline: none;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+select:focus {
+    border-color: #065B4E;
+    background: #ffffff;
+    box-shadow: 0 0 0 4px rgba(6, 91, 78, 0.1);
+    transform: translateY(-2px);
+}
+
+/* Select personalizado */
+select {
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right 12px center;
+    background-repeat: no-repeat;
+    background-size: 16px;
+    padding-right: 45px;
+}
+
+/* Botón de pago */
+button[type="submit"] {
+    width: 100%;
+    padding: 18px;
+    background: linear-gradient(135deg, #065B4E 0%, #087f66 100%);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+button[type="submit"]:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(6, 91, 78, 0.3);
+}
+
+button[type="submit"]:active {
+    transform: translateY(0);
+}
+
+button[type="submit"]::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.5s;
+}
+
+button[type="submit"]:hover::before {
+    left: 100%;
+}
+
+/* Caja de métodos de pago */
+.payment-methods-box {
+    background: linear-gradient(135deg, #065B4E 0%, #087f66 100%);
+    color: white;
+    padding: 40px 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+}
+
+.payment-methods-box::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='m0 40 40-40h-40v40zm40 0v-40h-40l40 40z'/%3E%3C/g%3E%3C/svg%3E") repeat;
+}
+
+.payment-methods-box > * {
+    position: relative;
+    z-index: 1;
+}
+
+.payment-methods-box h3 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    letter-spacing: 2px;
+}
+
+.payment-methods-box span {
+    font-size: 1rem;
+    margin-bottom: 30px;
+    opacity: 0.9;
+    line-height: 1.5;
+}
+
+/* Logos de pago */
+.payment-logos {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+}
+
+.payment-logos img {
+    height: 60px;
+    width: auto;
+    filter: brightness(1.1);
+    transition: all 0.3s ease;
+    border-radius: 8px;
+    background: white;
+    padding: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.payment-logos img:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+/* Efectos de validación */
+input:invalid {
+    border-color: #e74c3c;
+    animation: shake 0.3s ease-in-out;
+}
+
+input:valid {
+    border-color: #27ae60;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+/* Indicadores de seguridad */
+.security-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+    padding: 10px;
+    background: rgba(6, 91, 78, 0.1);
+    border-radius: 8px;
+    font-size: 0.9rem;
+    color: #065B4E;
+}
+
+.security-indicator::before {
+    content: '🔒';
+    margin-right: 8px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+
+    .main-wrapper {
+        grid-template-columns: 1fr;
+        gap: 0;
+        max-width: 500px;
+    }
+
+    .payment-form-box {
+        padding: 30px 25px;
+    }
+
+    .payment-methods-box {
+        padding: 30px 25px;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .payment-form-box h2 {
+        font-size: 1.5rem;
+    }
+
+    .payment-logos {
+        gap: 15px;
+    }
+
+    .payment-logos img {
+        height: 50px;
+    }
+}
+
+@media (max-width: 480px) {
+    .payment-form-box {
+        padding: 20px;
+    }
+
+    .payment-methods-box {
+        padding: 25px 20px;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    select {
+        padding: 12px 15px;
+        font-size: 0.95rem;
+    }
+
+    button[type="submit"] {
+        padding: 15px;
+        font-size: 1rem;
+    }
+}
+
+/* Animaciones adicionales */
+.payment-form-box {
+    animation: slideInLeft 0.6s ease-out;
+}
+
+.payment-methods-box {
+    animation: slideInRight 0.6s ease-out;
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Mejoras adicionales para UX */
+.form-row > div {
+    animation: fadeInUp 0.6s ease-out;
+    animation-fill-mode: both;
+}
+
+.form-row > div:nth-child(1) { animation-delay: 0.1s; }
+.form-row > div:nth-child(2) { animation-delay: 0.2s; }
+.form-row > div:nth-child(3) { animation-delay: 0.3s; }
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

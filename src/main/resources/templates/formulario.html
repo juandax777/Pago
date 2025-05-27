@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pasarela de Pago - Diseño Mejorado</title>
+    <style>
+        /* Reset y estilos base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #065B4E 0%, #B2DBCF 50%, #87CEEB 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            color: #333;
+            position: relative;
+        }
+
+        /* Patrón de fondo animado */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                    radial-gradient(circle at 20% 80%, rgba(255,255,255,0.1) 0%, transparent 50%),
+                    radial-gradient(circle at 80% 20%, rgba(255,255,255,0.1) 0%, transparent 50%);
+            animation: float 6s ease-in-out infinite;
+            z-index: -1;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        /* Contenedor principal */
+        .main-wrapper {
+            display: grid;
+            grid-template-columns: 1.8fr 1fr;
+            gap: 0;
+            max-width: 1100px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 25px;
+            box-shadow:
+                    0 25px 50px rgba(0, 0, 0, 0.2),
+                    0 0 0 1px rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* Caja del formulario de pago */
+        .payment-form-box {
+            padding: 50px 45px;
+            background: linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%);
+            position: relative;
+        }
+
+        .payment-form-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, #065B4E 0%, #B2DBCF 50%, #065B4E 100%);
+        }
+
+        .payment-form-box::after {
+            content: '';
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #B2DBCF, #065B4E);
+            border-radius: 50%;
+            opacity: 0.1;
+        }
+
+        .payment-form-box h2 {
+            color: #065B4E;
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 35px;
+            text-align: center;
+            position: relative;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .payment-form-box h2::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, #065B4E, #B2DBCF);
+            border-radius: 2px;
+        }
+
+        /* Filas del formulario */
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .form-row > div {
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        /* Estilos de labels */
+        label {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #065B4E;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+        }
+
+        label::before {
+            content: '';
+            position: absolute;
+            left: -15px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 8px;
+            height: 8px;
+            background: #B2DBCF;
+            border-radius: 50%;
+        }
+
+        /* Estilos de inputs y select */
+        input[type="text"],
+        input[type="number"],
+        select {
+            padding: 18px 20px;
+            border: 3px solid #e8f4f1;
+            border-radius: 15px;
+            font-size: 1.1rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            background: linear-gradient(145deg, #ffffff, #f8f9fa);
+            outline: none;
+            box-shadow:
+                    inset 0 2px 4px rgba(0,0,0,0.05),
+                    0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        select:focus {
+            border-color: #065B4E;
+            background: #ffffff;
+            box-shadow:
+                    0 0 0 6px rgba(6, 91, 78, 0.15),
+                    0 8px 25px rgba(6, 91, 78, 0.2);
+            transform: translateY(-3px);
+        }
+
+        /* Select personalizado */
+        select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%23065B4E' viewBox='0 0 20 20'%3e%3cpath stroke='%23065B4E' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 15px center;
+            background-repeat: no-repeat;
+            background-size: 20px;
+            padding-right: 50px;
+        }
+
+        /* Botón de pago */
+        button[type="submit"] {
+            width: 100%;
+            padding: 22px;
+            background: linear-gradient(135deg, #065B4E 0%, #087f66 50%, #065B4E 100%);
+            color: white;
+            border: none;
+            border-radius: 18px;
+            font-size: 1.3rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            margin-top: 20px;
+            box-shadow:
+                    0 10px 30px rgba(6, 91, 78, 0.4),
+                    inset 0 1px 0 rgba(255,255,255,0.2);
+        }
+
+        button[type="submit"]:hover {
+            transform: translateY(-4px);
+            box-shadow:
+                    0 15px 40px rgba(6, 91, 78, 0.5),
+                    inset 0 1px 0 rgba(255,255,255,0.3);
+        }
+
+        button[type="submit"]:active {
+            transform: translateY(-2px);
+        }
+
+        button[type="submit"]::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: left 0.6s;
+        }
+
+        button[type="submit"]:hover::before {
+            left: 100%;
+        }
+
+        /* Caja de métodos de pago */
+        .payment-methods-box {
+            background: linear-gradient(135deg, #065B4E 0%, #043d35 100%);
+            color: white;
+            padding: 50px 35px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .payment-methods-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                    radial-gradient(circle at 30% 20%, rgba(178, 219, 207, 0.1) 0%, transparent 50%),
+                    radial-gradient(circle at 70% 80%, rgba(178, 219, 207, 0.1) 0%, transparent 50%);
+        }
+
+        .payment-methods-box > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .payment-methods-box h3 {
+            font-size: 1.6rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            letter-spacing: 3px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .payment-methods-box span {
+            font-size: 1.1rem;
+            margin-bottom: 40px;
+            opacity: 0.95;
+            line-height: 1.6;
+            font-weight: 400;
+        }
+
+        /* Logos de pago */
+        .payment-logos {
+            display: flex;
+            gap: 25px;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .payment-logos img {
+            height: 70px;
+            width: 110px;
+            object-fit: contain;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 12px;
+            background: linear-gradient(145deg, #ffffff, #f0f0f0);
+            padding: 12px;
+            box-shadow:
+                    0 8px 25px rgba(0, 0, 0, 0.3),
+                    inset 0 1px 0 rgba(255,255,255,0.8);
+        }
+
+        .payment-logos img:hover {
+            transform: translateY(-8px) scale(1.1) rotateY(5deg);
+            box-shadow:
+                    0 20px 40px rgba(0, 0, 0, 0.4),
+                    inset 0 1px 0 rgba(255,255,255,0.9);
+        }
+
+        /* Efectos de validación */
+        input:invalid:not(:placeholder-shown) {
+            border-color: #e74c3c;
+            box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.2);
+            animation: shake 0.5s ease-in-out;
+        }
+
+        input:valid:not(:placeholder-shown) {
+            border-color: #27ae60;
+            box-shadow: 0 0 0 3px rgba(39, 174, 96, 0.2);
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-8px); }
+            75% { transform: translateX(8px); }
+        }
+
+        /* Indicador de seguridad */
+        .security-indicator {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 25px;
+            padding: 15px 20px;
+            background: linear-gradient(135deg, rgba(6, 91, 78, 0.1), rgba(178, 219, 207, 0.2));
+            border-radius: 12px;
+            font-size: 1rem;
+            color: #065B4E;
+            font-weight: 600;
+            border: 2px solid rgba(6, 91, 78, 0.2);
+        }
+
+        .security-indicator::before {
+            content: '🔒';
+            font-size: 1.3rem;
+            margin-right: 12px;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+
+            .main-wrapper {
+                grid-template-columns: 1fr;
+                gap: 0;
+                max-width: 600px;
+            }
+
+            .payment-form-box {
+                padding: 35px 25px;
+            }
+
+            .payment-methods-box {
+                padding: 35px 25px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .payment-form-box h2 {
+                font-size: 1.8rem;
+            }
+
+            .payment-logos {
+                gap: 20px;
+            }
+
+            .payment-logos img {
+                height: 60px;
+                width: 95px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .payment-form-box {
+                padding: 25px 20px;
+            }
+
+            .payment-methods-box {
+                padding: 30px 20px;
+            }
+
+            input[type="text"],
+            input[type="number"],
+            select {
+                padding: 15px 18px;
+                font-size: 1rem;
+            }
+
+            button[type="submit"] {
+                padding: 18px;
+                font-size: 1.1rem;
+            }
+        }
+
+        /* Animaciones de entrada */
+        .payment-form-box {
+            animation: slideInLeft 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .payment-methods-box {
+            animation: slideInRight 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Animaciones escalonadas para campos */
+        .form-row > div {
+            animation: fadeInUp 0.6s ease-out;
+            animation-fill-mode: both;
+        }
+
+        .form-row:nth-child(1) > div:nth-child(1) { animation-delay: 0.1s; }
+        .form-row:nth-child(1) > div:nth-child(2) { animation-delay: 0.2s; }
+        .form-row:nth-child(1) > div:nth-child(3) { animation-delay: 0.3s; }
+        .form-row:nth-child(2) > div:nth-child(1) { animation-delay: 0.4s; }
+        .form-row:nth-child(2) > div:nth-child(2) { animation-delay: 0.5s; }
+        .form-row:nth-child(3) > div:nth-child(1) { animation-delay: 0.6s; }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Placeholder mejorado */
+        ::placeholder {
+            color: #999;
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+<div class="main-wrapper">
+    <div class="payment-form-box">
+        <form action="/procesarPago" method="post" autocomplete="off" id="payment-form">
+            <h2>Selecciona un método de pago</h2>
+
+            <div class="form-row">
+                <div>
+                    <label for="marca">Marca de tarjeta</label>
+                    <select name="marca" id="marca" required>
+                        <option value="">Elige...</option>
+                        <option value="VISA">💳 Visa</option>
+                        <option value="MASTERCARD">💳 Mastercard</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="fechaExpiracion">Fecha de caducidad</label>
+                    <input type="text" name="fechaExpiracion" id="fechaExpiracion" maxlength="5" pattern="^(0[1-9]|1[0-2])\/\d{2}$" placeholder="MM/AA" required>
+                </div>
+                <div>
+                    <label for="codigoSeguridad">Código de seguridad</label>
+                    <input type="text" name="codigoSeguridad" id="codigoSeguridad" maxlength="4" pattern="^\d{3,4}$" placeholder="CVV" required>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div>
+                    <label for="titular">Titular de la tarjeta</label>
+                    <input type="text" name="titular" id="titular" maxlength="30" pattern="^[a-zA-Z\s]+$" placeholder="Nombre completo" required>
+                </div>
+                <div>
+                    <label for="numero">Número de tarjeta</label>
+                    <input type="text" name="numero" id="numero" maxlength="19" pattern="^\d{4}\s\d{4}\s\d{4}\s\d{4}$" placeholder="1234 5678 9012 3456" required>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div>
+                    <label for="monto">Monto a pagar</label>
+                    <input type="number" name="monto" id="monto" step="0.01" min="1" placeholder="100.00" required>
+                </div>
+            </div>
+
+            <div class="security-indicator">
+                Transacción 100% segura y encriptada
+            </div>
+
+            <button type="submit">💳 Procesar Pago</button>
+        </form>
+    </div>
+
+    <div class="payment-methods-box">
+        <h3>MÉTODOS DE PAGO</h3>
+        <span>Aceptamos los siguientes métodos de pago seguros y confiables:</span>
+        <div class="payment-logos">
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 150 50'%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dominant-baseline='central' font-family='Arial' font-size='16' font-weight='bold' fill='%23003d82'%3EVISA%3C/text%3E%3C/svg%3E" alt="Visa"/>
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 150 50'%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dominant-baseline='central' font-family='Arial' font-size='12' font-weight='bold' fill='%23eb001b'%3EMasterCard%3C/text%3E%3C/svg%3E" alt="Mastercard"/>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Variables para manejar el formateo
+    let isFormatting = false;
+
+    // Formateo del número de tarjeta
+    document.getElementById('numero').addEventListener('input', function(e) {
+        if (isFormatting) return;
+
+        isFormatting = true;
+
+        // Obtener solo los números
+        let value = this.value.replace(/\D/g, '');
+
+        // Limitar a 16 dígitos
+        value = value.substring(0, 16);
+
+        // Formatear con espacios cada 4 dígitos
+        let formattedValue = value.replace(/(\d{4})(?=\d)/g, '$1 ');
+
+        // Actualizar el valor
+        this.value = formattedValue;
+
+        isFormatting = false;
+    });
+
+    // Formateo del código de seguridad (solo números)
+    document.getElementById('codigoSeguridad').addEventListener('input', function(e) {
+        this.value = this.value.replace(/\D/g, '').substring(0, 4);
+    });
+
+    // Formateo del titular (solo letras y espacios, mayúsculas)
+    document.getElementById('titular').addEventListener('input', function(e) {
+        this.value = this.value.replace(/[^a-zA-Z\s]/g, '').toUpperCase().substring(0, 30);
+    });
+
+    // Formateo de fecha de expiración
+    document.getElementById('fechaExpiracion').addEventListener('input', function(e) {
+        let value = this.value.replace(/\D/g, '');
+
+        if (value.length >= 2) {
+            // Validar mes (01-12)
+            let month = value.substring(0, 2);
+            if (parseInt(month) > 12 || parseInt(month) < 1) {
+                month = '12';
+            }
+
+            let year = value.substring(2, 4);
+            this.value = month + (year ? '/' + year : '');
+        } else {
+            this.value = value;
+        }
+    });
+
+    // Validación adicional en el envío del formulario
+    document.getElementById('payment-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const numero = document.getElementById('numero').value.replace(/\s/g, '');
+        const fechaExpiracion = document.getElementById('fechaExpiracion').value;
+        const codigoSeguridad = document.getElementById('codigoSeguridad').value;
+        const titular = document.getElementById('titular').value.trim();
+        const monto = document.getElementById('monto').value;
+
+        // Validaciones
+        if (numero.length !== 16) {
+            alert('El número de tarjeta debe tener 16 dígitos');
+            return;
+        }
+
+        if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(fechaExpiracion)) {
+            alert('La fecha de expiración debe tener formato MM/AA');
+            return;
+        }
+
+        if (codigoSeguridad.length < 3 || codigoSeguridad.length > 4) {
+            alert('El código de seguridad debe tener 3 o 4 dígitos');
+            return;
+        }
+
+        if (titular.length < 2) {
+            alert('El nombre del titular es requerido');
+            return;
+        }
+
+        if (parseFloat(monto) < 1) {
+            alert('El monto debe ser mayor a 1');
+            return;
+        }
+
+        // Si todo está correcto, mostrar mensaje de éxito
+        alert('¡Formulario validado correctamente! Procesando pago...');
+
+        // Aquí normalmente enviarías los datos al servidor
+        console.log('Datos del formulario:', {
+            numero: numero,
+            fechaExpiracion: fechaExpiracion,
+            codigoSeguridad: codigoSeguridad,
+            titular: titular,
+            monto: monto
+        });
+    });
+</script>
+</body>
+</html>
